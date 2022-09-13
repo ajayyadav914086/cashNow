@@ -1,10 +1,12 @@
 package com.taxerts.scratch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,6 +15,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class ScratchCard extends AppCompatActivity {
@@ -29,6 +37,7 @@ public class ScratchCard extends AppCompatActivity {
     GridView gridView;
     TextView invitetot;
     SharedPreferences sharedPreferences;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,8 @@ public class ScratchCard extends AppCompatActivity {
         cards_total_earnings = textView2;
         textView2.setText(currency + " " + sharedPreferences.getLong("cash", 0));
         gridView.setAdapter(new GridcardAdapter());
+        loadAd();
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long j) {
                 if (i == 0) {
@@ -58,6 +69,9 @@ public class ScratchCard extends AppCompatActivity {
                     intent.putExtra("color",R.color.welcomebg);
                     intent.putExtra("cost","5");
                     startActivity(intent);
+                    if (mInterstitialAd != null && count%2 ==0) {
+                        mInterstitialAd.show(ScratchCard.this);
+                    }
                 } else if (i == 1) {
                     count++;
                     Intent intent2 = new Intent(ScratchCard.this, Scratch.class);
@@ -66,6 +80,9 @@ public class ScratchCard extends AppCompatActivity {
                     intent2.putExtra("color",R.color.partybg);
                     intent2.putExtra("cost","10");
                     startActivity(intent2);
+                    if (mInterstitialAd != null && count%2 ==0) {
+                        mInterstitialAd.show(ScratchCard.this);
+                    }
                 } else if (i == 2) {
                     count++;
                     Intent intent3 = new Intent(ScratchCard.this, Scratch.class);
@@ -74,6 +91,9 @@ public class ScratchCard extends AppCompatActivity {
                     intent3.putExtra("color",R.color.cheersbg);
                     intent3.putExtra("cost","15");
                     startActivity(intent3);
+                    if (mInterstitialAd != null && count%2 ==0) {
+                        mInterstitialAd.show(ScratchCard.this);
+                    }
                 } else if (i == 3) {
                     count++;
                     Intent intent4 = new Intent(ScratchCard.this, Scratch.class);
@@ -82,10 +102,66 @@ public class ScratchCard extends AppCompatActivity {
                     intent4.putExtra("color",R.color.carnivalbg);
                     intent4.putExtra("cost","30");
                     startActivity(intent4);
+                    if (mInterstitialAd != null && count%2 ==0) {
+                        mInterstitialAd.show(ScratchCard.this);
+                    }
                 }
             }
         });
     }
+
+    private void loadAd() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                            @Override
+                            public void onAdClicked() {
+                                // Called when a click is recorded for an ad.
+                            }
+
+                            @Override
+                            public void onAdDismissedFullScreenContent() {
+                                // Called when ad is dismissed.
+                                // Set the ad reference to null so you don't show the ad a second time.
+                                mInterstitialAd = null;
+                            }
+
+                            @Override
+                            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                // Called when ad fails to show.
+                                mInterstitialAd = null;
+                            }
+
+                            @Override
+                            public void onAdImpression() {
+                                // Called when an impression is recorded for an ad.
+
+                            }
+
+                            @Override
+                            public void onAdShowedFullScreenContent() {
+                                // Called when ad is shown.
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        mInterstitialAd = null;
+                    }
+
+
+                });
+    }
+
     private class GridcardAdapter extends BaseAdapter {
         public Object getItem(int i) {
             return null;
@@ -117,5 +193,6 @@ public class ScratchCard extends AppCompatActivity {
         TextView textView = this.cards_total_earnings;
         textView.setText(this.currency + " " + this.cas);
         super.onResume();
+        loadAd();
     }
 }

@@ -10,8 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -33,6 +41,7 @@ public class MainActivity2 extends AppCompatActivity implements DashboardFragmen
     Boolean isEmpty;
     public FirebaseAuth mAuth;
     public DatabaseReference mDatabase;
+    private InterstitialAd mInterstitialAd;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         public boolean onNavigationItemSelected(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
@@ -64,6 +73,11 @@ public class MainActivity2 extends AppCompatActivity implements DashboardFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         getSupportActionBar().hide();
+        MobileAds.initialize(MainActivity2.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
         firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference("user");
@@ -75,6 +89,23 @@ public class MainActivity2 extends AppCompatActivity implements DashboardFragmen
         this.sharedPreferences = sharedPreferences2;
         this.Currency = sharedPreferences2.getString(FirebaseAnalytics.Param.CURRENCY, "$");
         this.editor = this.sharedPreferences.edit();
+        AdRequest adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        mInterstitialAd = null;
+                    }
+
+                });
         String str = this.ReferUser;
         if (str != null) {
             this.mDatabase.child(str).child("Cash").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -132,12 +163,21 @@ public class MainActivity2 extends AppCompatActivity implements DashboardFragmen
     }
     public void switchToMain() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(MainActivity2.this);
+        }
     }
     public void switchToRedeem() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RedeemFragment()).commit();
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(MainActivity2.this);
+        }
     }
 
     public void switchToTransaction() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TransactionsFragment()).commit();
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(MainActivity2.this);
+        }
     }
 }

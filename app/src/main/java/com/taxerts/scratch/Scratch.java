@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +37,6 @@ public class Scratch extends AppCompatActivity {
     String[] cheers_price = {"10", "10", "10", "10", "20", "22", "28", "30"};
     String databCash;
     SharedPreferences.Editor editor;
-    /* access modifiers changed from: private */
     public FirebaseAnalytics firebaseAnalytics;
     int length;
     public FirebaseAuth mAuth;
