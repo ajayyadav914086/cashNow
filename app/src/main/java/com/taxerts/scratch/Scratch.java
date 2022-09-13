@@ -1,6 +1,5 @@
 package com.taxerts.scratch;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -34,25 +33,23 @@ public class Scratch extends AppCompatActivity {
     ImageView cardTypeimage;
     TextView cardTypetext;
     CardView cardView;
-    String[] carnival_price = {"10","10","10","10","10","10","20","25","25", "25", "30", "35", "40", "45", "50"};
+    String[] carnival_price = {"10", "10", "10", "10", "10", "10", "20", "25", "25", "25", "30", "35", "40", "45", "50"};
     int cashInt;
-    String[] cheers_price = {"10","10","10","10","20", "22", "28", "30"};
+    String[] cheers_price = {"10", "10", "10", "10", "20", "22", "28", "30"};
     String databCash;
     SharedPreferences.Editor editor;
     /* access modifiers changed from: private */
     public FirebaseAnalytics firebaseAnalytics;
     int length;
-    /* access modifiers changed from: private */
     public FirebaseAuth mAuth;
-    /* access modifiers changed from: private */
     public DatabaseReference mDatabase;
     ScratchCard mScratchCard;
-    String[] party_price = {"7","7","7","9", "12", "15", "16", "18", "20"};
+    String[] party_price = {"7", "7", "7", "9", "12", "15", "16", "18", "20"};
     int randcash;
     String randomCash;
     TextView scratchinvite;
     SharedPreferences sharedPreferences;
-    String[] welcome_price = {"3","3","3","7", "8", "9", "10"};
+    String[] welcome_price = {"3", "3", "3", "7", "8", "9", "10"};
     TextView wintext;
     int woncash;
     int welcomeCardCost = 5;
@@ -73,16 +70,16 @@ public class Scratch extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         cardView = findViewById(R.id.main_scratch_cardview);
         cardPrice = findViewById(R.id.main_card_price);
-        cardView.setBackgroundResource(getIntent().getIntExtra("color",0));
+        cardView.setBackgroundResource(getIntent().getIntExtra("color", 0));
         cardType = getIntent().getStringExtra("card_type");
         cardTypetext = findViewById(R.id.card_type_text);
-        cardTypetext.setText(cardType+" Card");
+        cardTypetext.setText(cardType + " Card");
         cardTypeimage = findViewById(R.id.card_type_image);
-        Picasso.get().load(getIntent().getIntExtra("card_img",0)).into(cardTypeimage);
+        Picasso.get().load(getIntent().getIntExtra("card_img", 0)).into(cardTypeimage);
         wintext = findViewById(R.id.win_text);
         mScratchCard = findViewById(R.id.SCard);
         mScratchCard.setOnScratchListener((scratchCard, visiblePercent) -> {
-            if (visiblePercent > 0.1){
+            if (visiblePercent > 0.1) {
                 mScratchCard.setVisibility(View.GONE);
                 Winalert();
                 saveToDatabase();
@@ -94,24 +91,21 @@ public class Scratch extends AppCompatActivity {
 
     private void saveToDatabase() {
         Log.d("CASH DATABASE", String.valueOf(woncash));
-        long cash = sharedPreferences.getLong("cash",0);
+        long cash = sharedPreferences.getLong("cash", 0);
         long finalCash = cash + woncash;
         mDatabase.child(mAuth.getUid()).child("Cash").setValue(finalCash);
-        editor.putLong("cash",finalCash);
+        editor.putLong("cash", finalCash);
         editor.apply();
     }
 
     private void checkCards(String cardType) {
-        if (Objects.equals(cardType, "welcome")){
+        if (Objects.equals(cardType, "welcome")) {
             welcomeCard();
-        }
-        else if (Objects.equals(cardType, "party")){
+        } else if (Objects.equals(cardType, "party")) {
             partyCard();
-        }
-        else if (Objects.equals(cardType, "cheers")){
+        } else if (Objects.equals(cardType, "cheers")) {
             cheersCard();
-        }
-        else if (Objects.equals(cardType, "carnival")){
+        } else if (Objects.equals(cardType, "carnival")) {
             carnivalCard();
         }
     }
@@ -120,10 +114,10 @@ public class Scratch extends AppCompatActivity {
         cardPrice.setText("Win price upto $0-10");
         randomCash = random(carnival_price);
         woncash = Integer.parseInt(randomCash) - carnivalCardCost;
-        if(woncash<0){
-            wintext.setText("You lost $"+Math.abs(woncash));
-        }else{
-            wintext.setText("You won $"+woncash);
+        if (woncash < 0) {
+            wintext.setText("You lost $" + Math.abs(woncash));
+        } else {
+            wintext.setText("You won $" + woncash);
         }
     }
 
@@ -131,10 +125,10 @@ public class Scratch extends AppCompatActivity {
         cardPrice.setText("Win price upto $0-20");
         randomCash = random(cheers_price);
         woncash = Integer.parseInt(randomCash) - cheersCardCost;
-        if(woncash<0){
-            wintext.setText("You lost $"+Math.abs(woncash));
-        }else{
-            wintext.setText("You won $"+woncash);
+        if (woncash < 0) {
+            wintext.setText("You lost $" + Math.abs(woncash));
+        } else {
+            wintext.setText("You won $" + woncash);
         }
     }
 
@@ -142,10 +136,10 @@ public class Scratch extends AppCompatActivity {
         cardPrice.setText("Win price upto $0-30");
         randomCash = random(party_price);
         woncash = Integer.parseInt(randomCash) - partyCardCost;
-        if(woncash<0){
-            wintext.setText("You lost $"+Math.abs(woncash));
-        }else{
-            wintext.setText("You won $"+woncash);
+        if (woncash < 0) {
+            wintext.setText("You lost $" + Math.abs(woncash));
+        } else {
+            wintext.setText("You won $" + woncash);
         }
     }
 
@@ -153,10 +147,10 @@ public class Scratch extends AppCompatActivity {
         cardPrice.setText("Win price upto $0-50");
         randomCash = random(welcome_price);
         woncash = Integer.parseInt(randomCash) - welcomeCardCost;
-        if(woncash<0){
-            wintext.setText("You lost $"+Math.abs(woncash));
-        }else{
-            wintext.setText("You won $"+woncash);
+        if (woncash < 0) {
+            wintext.setText("You lost $" + Math.abs(woncash));
+        } else {
+            wintext.setText("You won $" + woncash);
         }
     }
 
@@ -178,7 +172,7 @@ public class Scratch extends AppCompatActivity {
         dialog.show();
     }
 
-    public String random(String[] prices){
+    public String random(String[] prices) {
         int rand = new Random().nextInt(prices.length);
         return prices[rand];
     }
