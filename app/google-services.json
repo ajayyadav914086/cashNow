@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "404354410372",
+    "project_id": "cashnow-ddca9",
+    "storage_bucket": "cashnow-ddca9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404354410372:android:5c4e96a56f27ac062e1fd1",
+        "android_client_info": {
+          "package_name": "com.taxerts.scratch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404354410372-r0q723kp9hfubu59urag1oqjvmvbrj8l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxerts.scratch",
+            "certificate_hash": "1be4b7ca3b303e9309a6066132761908e0c296c2"
+          }
+        },
+        {
+          "client_id": "404354410372-2helvqa60sp422hoa89tmcegu9hulre1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3X9xns11v9YYI1mHTGJoO2wzcgaaQ_1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404354410372-2helvqa60sp422hoa89tmcegu9hulre1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

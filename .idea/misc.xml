@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/dotted_border.xml" value="0.101" />
+        <entry key="app/src/main/res/drawable-v24/textboxshape.xml" value="0.2085" />
+        <entry key="app/src/main/res/layout/activity_faq.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/layout/activity_invite_friend.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_refer_enter.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_scratch.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_scratch_card.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/layout/activity_scratchads.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_redeem.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_transaction.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/grid_data.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/mainwon.xml" value="0.37514450638382524" />
+        <entry key="app/src/main/res/layout/scratch_list.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/task_list.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/win_dialog.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24375" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
