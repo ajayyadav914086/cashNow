@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,6 +65,8 @@ public class Scratch extends AppCompatActivity {
         SharedPreferences sharedPreferences2 = getSharedPreferences("USER", 0);
         sharedPreferences = sharedPreferences2;
         editor = sharedPreferences2.edit();
+        button = findViewById(R.id.main_scratch_invite);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mDatabase = FirebaseDatabase.getInstance().getReference("user");
         mAuth = FirebaseAuth.getInstance();
         cardView = findViewById(R.id.main_scratch_cardview);
@@ -84,6 +87,19 @@ public class Scratch extends AppCompatActivity {
             }
         });
         checkCards(cardType);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("invite_button", true);
+                firebaseAnalytics.logEvent("invite_button", bundle);
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.SEND");
+                intent.putExtra("android.intent.extra.TEXT", "Hey Check this amazing app, you can make $500, you will get $60 Signup Bonus, Just use my code below" + sharedPreferences.getString("refer", (String) null) + " https://play.google.com/store/apps/details?id=" + getPackageName());
+                intent.setType("text/plain");
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -164,10 +180,14 @@ public class Scratch extends AppCompatActivity {
         }
         dialog.findViewById(R.id.more_card_button).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                dialog.dismiss();
+                redirectBack();
             }
         });
         dialog.show();
+    }
+
+    public void redirectBack(){
+        onBackPressed();
     }
 
     public String random(String[] prices) {
